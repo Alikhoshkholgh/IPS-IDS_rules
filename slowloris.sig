@@ -1,0 +1,7 @@
+alert tcp any any -> any any ( msg:"slowloris check http.method: GET";content:"GET";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,notset;flowint:slowloris, =, 1; noalert; classtype:ddos; sid:6000;)
+alert tcp any any -> any any ( msg:"slowloris suspicious http.method: GET";content:"GET";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,isset; flowint:slowloris, +, 1; noalert; classtype:ddos; sid:6001;)
+drop tcp any any -> any any (  msg:"slowloris attack detected http.method: GET";content:"GET";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,isset; flowint:slowloris, >, 10; classtype:ddos; sid:6002;)
+
+alert tcp any any -> any any ( msg:"slowloris check http.method: POST";content:"POST";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,notset;flowint:slowloris, =, 1; noalert; classtype:ddos; sid:6003;)
+alert tcp any any -> any any ( msg:"slowloris suspicious http.method: POST";content:"POST";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,isset; flowint:slowloris, +, 1; noalert; classtype:ddos; sid:6004;)
+drop tcp any any -> any any (  msg:"slowloris attack detected  http.method: POST";content:"POST";http_method;content:"keep-alive";http_connection ;flow:to_server,established;flowint:slowloris,isset; flowint:slowloris, >, 10; classtype:ddos; sid:6005;)
